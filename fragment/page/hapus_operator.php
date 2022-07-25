@@ -7,7 +7,7 @@ if(isset($_GET['id'])){
 
     $tgl = date('Y-m-d H:i:s', time());
 
-    $query = "DELETE FROM tbl_operator WHERE id_operator='$id'";
+    $query = "UPDATE tbl_operator SET deleted_at='$tgl' where id_operator='$id' ";
 
     $delete = $conn->query($query);
 

@@ -1,7 +1,7 @@
 <?php 
 include("conn.php");
 
-$data = $conn->query("SELECT o.id_operator, o.nama_operator, o.username, o.email FROM tbl_operator o");
+$data = $conn->query("SELECT * FROM tbl_operator WHERE deleted_at IS NULL " );
 
 // print_r($data);
 ?>
