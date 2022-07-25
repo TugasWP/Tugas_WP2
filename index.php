@@ -1,3 +1,14 @@
+<?php 
+//memulai session yang disimpan pada browser
+session_start();
+
+//cek apakah sesuai status sudah login? kalau belum akan kembali ke form login
+if($_SESSION['status']!="sudah_login"){
+//melakukan pengalihan
+header("location:login.php");
+} 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -171,7 +182,7 @@
                         <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Teknik Informatika</a>
+                        <a href="#" class="d-block"><?php echo $_SESSION['username']?></a>
                     </div>
                 </div>
 

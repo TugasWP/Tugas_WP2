@@ -22,7 +22,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="index3.html" class="nav-link">
+                <a href="logout.php" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Sign Out</p>
                 </a>
@@ -35,7 +35,7 @@
             <!-- <i class="nav-icon fas fa-copy"></i> -->
             <i class="nav-icon fab fa-dropbox"></i>
             <p>
-                Data Barang
+                Kelola Barang
                 <i class="fas fa-angle-left right"></i>
 
             </p>
@@ -61,7 +61,7 @@
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-user-lock"></i>
             <p>
-                Data Operator
+                Kelola Operator
                 <i class="fas fa-angle-left right"></i>
 
             </p>
@@ -87,7 +87,7 @@
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-file-upload"></i>
             <p>
-                Barang Masuk
+                Kelola Barang Masuk
                 <i class="fas fa-angle-left right"></i>
 
             </p>
@@ -113,7 +113,7 @@
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-file-download"></i>
             <p>
-                Barang Keluar
+                Kelola Barang Keluar
                 <i class="fas fa-angle-left right"></i>
 
             </p>

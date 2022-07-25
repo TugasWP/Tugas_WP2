@@ -1,61 +1,105 @@
 <?php 
-include("conn.php");
 
-$data = $conn->query("SELECT m.id_barang_keluar, m.qty_keluar, b.kode_barang, b.nama_barang, b.satuan, o.nama_operator, m.created_at FROM tbl_barang_keluar m INNER JOIN tbl_barang b ON m.id_barang=b.id_barang INNER JOIN tbl_operator o ON m.id_operator=o.id_operator AND m.deleted_at IS null
-ORDER BY m.id_barang_keluar desc");
+include 'conn.php';
 
-// print_r($data);
+if (isset($_POST['submit'])) {
+ $bln = date($_POST['bulan']);
+
+ if (!empty($bln)) {
+  // perintah tampil data berdasarkan periode bulan
+  $q = mysqli_query($conn, "SELECT * FROM tbl_barang_keluar WHERE MONTH(created_at) = '$bln'");
+ } else {
+  // perintah tampil semua data
+  $q = mysqli_query($conn, "SELECT * FROM tbl_barang_keluar");
+ }
+} else {
+ // perintah tampil semua data
+ $q = mysqli_query($conn, "SELECT b.*, o.nama_operator FROM tbl_barang AS b INNER JOIN tbl_operator As o ON b.id_operator=o.id_operator and b.deleted_at is null ORDER BY b.id_barang desc");
+}
+
+// hitung jumlah baris data
+$s = $q->num_rows;
+
 ?>
 
-<div class="card">
-    <div class="card-header">
-        <h3 class="card-title">Daftar Barang Keluar</h3>
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Tutorial PHP</title>
+
+ <!-- Bootstrap -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+ 
+ <div class="container mt-5">
+  <center>
+   <h1>PlajariKode</h1>
+   <h3>Menampilkan data berdasarkan periode tanggal dengan PHP</h3>
+  </center>
+
+  <div class="card col-md-8 mx-auto mt-3">
+   <div class="card-body">
+    <div class="row">
+     <div class="col-md-4 pt-2">
+      <span>Jumlah data: <b><?= $s ?></b></span>
+     </div>
+     <div class="col-md-8">
+      <form method="POST" action="" class="form-inline">
+       <label for="date1">Tampilkan transaksi bulan </label>
+       <select class="form-control mr-2" name="bulan">
+        <option value="">-</option>
+        <option value="1">Januari</option>
+        <option value="2">Februari</option>
+        <option value="3">Maret</option>
+        <option value="4">April</option>
+        <option value="5">Mei</option>
+        <option value="6">Juni</option>
+        <option value="7">Juli</option>
+        <option value="8">Agustus</option>
+        <option value="9">September</option>
+        <option value="10">Oktober</option>
+        <option value="11">November</option>
+        <option value="12">Desember</option>
+       </select>
+       <button type="submit" name="submit" class="btn btn-primary">Tampilkan</button>
+      </form>
+     </div>
     </div>
 
-    <div class="card-body">
-        <table id="example1" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Tgl. Keluar</th>
-                    <th>Barang</th>
-                    <th>Satuan</th>
-                    <th>QTY</th>
-                    <th>Operator</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                    $no=1;
-                    while($value = $data->fetch_object()){
-                        ?>
-                            <tr>
-                                <td><?=$no;?></td>
-                                <td><?=$value->created_at;?></td>
-                                <td><?=$value->kode_barang;?>-<?=$value->nama_barang;?></td>
-                                <td><?=$value->satuan;?></td>
-                                <td><?=$value->qty_keluar;?></td>
-                                <td><?=$value->nama_operator;?></td>
-                            </tr>
-                        <?php
-                        $no++;
-                    }
+    <div class="mt-3" style="max-height: 340px; overflow-y: auto;">
+     <table class="table table-bordered">
+      <tr>
+       <th>#</th>
+       <th>Nama Barang</th>
+       <th>Harga Satuan</th>
+       <th>Qty</th>
+       <th>Tgl. Transaksi</th>
+      </tr>
 
-                ?>
-                
-                
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>#</th>
-                    <th>Tgl. Keluar</th>
-                    <th>Barang</th>
-                    <th>Satuan</th>
-                    <th>QTY</th>
-                    <th>Operator</th>
-                </tr>
-            </tfoot>
-        </table>
+      <?php
+      
+      $no = 1;
+      while ($r = $q->fetch_assoc()) {
+      ?>
+
+      <tr>
+       <td><?= $no++ ?></td>
+       <td><?= ucwords($r['id_barang_keluar']) ?></td>
+       <td><?= $r['harga'] ?></td>
+       <td><?= $r['qty'] ?></td>
+       <td><?= date('d-M-Y', strtotime($r['tgl_transaksi'])) ?></td>
+      </tr>
+  
+      <?php   
+      }
+      ?>
+
+     </table>
     </div>
+   </div>
+  </div>
+ </div>
 
-</div>
+</body>
+</html>
