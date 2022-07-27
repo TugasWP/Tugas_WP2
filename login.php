@@ -1,26 +1,58 @@
 <!DOCTYPE html>
-<html>
-<head>
-	<title>Form Login Gilacoding</title>
-</head>
-<body>
-	<center>
-	<form action="login_adapter.php" method="POST" style="margin-top: 200px;">
-		<h1>Login</h1>
-		<label>Username :</label>
-		<input type="text" name="username" placeholder="masukkan username" required="" autofocus="">
-		<br/>
-		<br/>
-		<label>Password :</label>
-		<input type="password" name="password" placeholder="masukkan password" required="">
-		<br>
-		<br>
-		<button type="submit">SUBMIT LOGIN</button>
-	</form>
-	<!-- Menampung jika ada pesan -->
-	<?php if(isset($_GET['pesan'])) {  ?>
-	<label style="color:red;"><?php echo $_GET['pesan']; ?></label>
-	<?php } ?>	
-	</center>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
+    <meta name="generator" content="Hugo 0.84.0" />
+    <title>Signin Template · Bootstrap v5.0</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sign-in/" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="dist/css/signin.css" rel="stylesheet" />
+  </head>
+  <body class="text-center">
+    <main class="form-signin">
+      <form action="login_adapter.php" method="POST">
+        <img class="mb-4" src="dist/img/Logo.png" alt="" width="100" height="100" />
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+        <div class="form-floating">
+          <input type="text" name="username" class="form-control" id="floatingInput" placeholder="Username" />
+          <label for="floatingInput">username</label>
+        </div>
+        <div class="form-floating">
+          <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password" />
+          <label for="floatingPassword">Password</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2021–2022</p>
+      </form>
+      <?php if(isset($_GET['pesan'])) {  ?>
+        <label style="color:red;"><?php echo $_GET['pesan']; ?></label>
+        <?php } ?>	
+    </main>
+  </body>
 </html>
