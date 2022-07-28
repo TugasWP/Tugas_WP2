@@ -94,7 +94,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="index.php?hal=tambah_barang_harian" class="nav-link">
+                <a href="index.php?hal=tambah_barang_masuk" class="nav-link">
                     <i class="far fa-circle nav-icon"></i>
                     <p>Tambah Barang Masuk</p>
                 </a>

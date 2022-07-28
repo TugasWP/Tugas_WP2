@@ -7,14 +7,30 @@ if (isset($_POST['submit'])) {
 
  if (!empty($bln)) {
   // perintah tampil data berdasarkan periode bulan
-  $q = mysqli_query($conn, "SELECT * FROM tbl_barang_keluar WHERE MONTH(created_at) = '$bln'");
+  $q = $conn-> query("SELECT b.kode_barang, b.nama_barang, m.qty_masuk, m.updated_at, k.qty_keluar, k.updated_at as update_keluar, o.nama_operator 
+  FROM tbl_barang b 
+  INNER JOIN tbl_operator o ON b.id_operator=o.id_operator 
+  INNER JOIN tbl_barang_masuk m ON b.id_barang=m.id_barang 
+  INNER JOIN tbl_barang_keluar k ON b.id_barang=k.id_barang 
+  where MONTH(m.created_at) = '$bln'
+  ORDER BY m.updated_at and k.updated_at desc");
  } else {
   // perintah tampil semua data
-  $q = mysqli_query($conn, "SELECT * FROM tbl_barang_keluar");
+  $q = $conn->query("SELECT b.kode_barang, b.nama_barang, m.qty_masuk, m.updated_at, k.qty_keluar, k.updated_at as update_keluar, o.nama_operator 
+  FROM tbl_barang b 
+  INNER JOIN tbl_operator o ON b.id_operator=o.id_operator 
+  INNER JOIN tbl_barang_masuk m ON b.id_barang=m.id_barang 
+  INNER JOIN tbl_barang_keluar k ON b.id_barang=k.id_barang 
+  ORDER BY m.updated_at and k.updated_at desc");
  }
 } else {
  // perintah tampil semua data
- $q = mysqli_query($conn, "SELECT b.*, o.nama_operator FROM tbl_barang AS b INNER JOIN tbl_operator As o ON b.id_operator=o.id_operator and b.deleted_at is null ORDER BY b.id_barang desc");
+ $q = $conn->query("SELECT b.kode_barang, b.nama_barang, m.qty_masuk, m.updated_at, k.qty_keluar, k.updated_at as update_keluar, o.nama_operator 
+  FROM tbl_barang b 
+  INNER JOIN tbl_operator o ON b.id_operator=o.id_operator 
+  INNER JOIN tbl_barang_masuk m ON b.id_barang=m.id_barang 
+  INNER JOIN tbl_barang_keluar k ON b.id_barang=k.id_barang 
+  ORDER BY m.updated_at and k.updated_at desc");
 }
 
 // hitung jumlah baris data
@@ -32,13 +48,9 @@ $s = $q->num_rows;
 </head>
 <body>
  
- <div class="container mt-5">
-  <center>
-   <h1>PlajariKode</h1>
-   <h3>Menampilkan data berdasarkan periode tanggal dengan PHP</h3>
-  </center>
+ <div class="card">
 
-  <div class="card col-md-8 mx-auto mt-3">
+  <div class="card ">
    <div class="card-body">
     <div class="row">
      <div class="col-md-4 pt-2">
@@ -67,36 +79,46 @@ $s = $q->num_rows;
      </div>
     </div>
 
-    <div class="mt-3" style="max-height: 340px; overflow-y: auto;">
-     <table class="table table-bordered">
-      <tr>
-       <th>#</th>
-       <th>Nama Barang</th>
-       <th>Harga Satuan</th>
-       <th>Qty</th>
-       <th>Tgl. Transaksi</th>
-      </tr>
+    <div class="card-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Barang</th>
+                    <th>Tgl. Masuk</th>
+                    <th>QTY. Masuk</th>
+                    <th>Tgl. Keluar</th>
+                    <th>QTY. Keluar</th>
+                    <th>Operator</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
 
-      <?php
-      
-      $no = 1;
-      while ($r = $q->fetch_assoc()) {
-      ?>
+                    $no=1;
+                    while($value = $q->fetch_object()){
+                        ?>
+                            <tr>
+                                <td><?=$no;?></td>
+                                <td><?=$value->kode_barang;?>-<?=$value->nama_barang;?></td>
+                                <td><?=$value->updated_at;?></td>
+                                <td><?=$value->qty_masuk;?></td>
+                                <td><?=$value->update_keluar;?></td>
+                                <td><?=$value->qty_keluar;?></td>
+                                <td><?=$value->nama_operator;?></td>
+                            </tr>
+                        <?php
+                        $no++;
+                    }
 
-      <tr>
-       <td><?= $no++ ?></td>
-       <td><?= ucwords($r['id_barang_keluar']) ?></td>
-       <td><?= $r['harga'] ?></td>
-       <td><?= $r['qty'] ?></td>
-       <td><?= date('d-M-Y', strtotime($r['tgl_transaksi'])) ?></td>
-      </tr>
-  
-      <?php   
-      }
-      ?>
-
-     </table>
+                ?>
+                
+                
+            </tbody>
+            
+        </table>
     </div>
+
    </div>
   </div>
  </div>
